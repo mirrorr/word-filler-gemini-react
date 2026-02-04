@@ -4,9 +4,10 @@ interface FileUploadProps {
   onFileLoaded: (content: ArrayBuffer, fileName: string) => void;
   onError: (error: string) => void;
   fileName: string;
+  placeholdersCount: number;
 }
 
-export const FileUpload: React.FC<FileUploadProps> = ({ onFileLoaded, onError, fileName }) => {
+export const FileUpload: React.FC<FileUploadProps> = ({ onFileLoaded, onError, fileName, placeholdersCount }) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -77,7 +78,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileLoaded, onError, f
           <p className="text-xs text-gray-500">.DOCX files only</p>
         </div>
       </div>
-      {fileName && <p className="text-sm text-green-600 mt-2 font-medium">Loaded: {fileName}</p>}
+      {fileName && <p className="text-sm text-green-600 mt-2 font-medium">Loaded: {fileName} ({placeholdersCount} placeholders found)</p>}
     </div>
   );
 };
