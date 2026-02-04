@@ -21,19 +21,19 @@ vi.mock('pizzip', () => ({
 }));
 
 vi.mock('docxtemplater', () => ({
-  default: vi.fn().mockImplementation(() => ({
-    setData: mocks.setData,
-    render: mocks.render,
-    getZip: vi.fn().mockReturnValue({
+  default: vi.fn(function (this: any) {
+    this.setData = mocks.setData;
+    this.render = mocks.render;
+    this.getZip = vi.fn().mockReturnValue({
       generate: mocks.generate,
-    }),
-  })),
+    });
+  }),
 }));
 
 vi.mock('docxtemplater/js/inspect-module.js', () => ({
-  default: vi.fn().mockImplementation(() => ({
-    getAllTags: mocks.getAllTags,
-  })),
+  default: vi.fn(function (this: any) {
+    this.getAllTags = mocks.getAllTags;
+  }),
 }));
 
 describe('docxUtils', () => {
@@ -44,7 +44,7 @@ describe('docxUtils', () => {
   });
 
   describe('getPlaceholders', () => {
-    it.skip('should return keys from getAllTags', () => {
+    it('should return keys from getAllTags', () => {
       mocks.getAllTags.mockReturnValue({
         name: {},
         date: {},
@@ -58,7 +58,7 @@ describe('docxUtils', () => {
       expect(result).toEqual(['name', 'date']);
     });
 
-    it.skip('should return empty array if no tags found', () => {
+    it('should return empty array if no tags found', () => {
       mocks.getAllTags.mockReturnValue({});
 
       const result = getPlaceholders(mockContent);
@@ -68,7 +68,7 @@ describe('docxUtils', () => {
   });
 
   describe('generateDocument', () => {
-    it.skip('should call setData, render, and saveAs', () => {
+    it('should call setData, render, and saveAs', () => {
       const data = { name: 'John' };
       const fileName = 'test.docx';
       const mockBlob = new Blob(['blob content']);
@@ -86,7 +86,7 @@ describe('docxUtils', () => {
       expect(mocks.saveAs).toHaveBeenCalledWith(mockBlob, 'filled-test.docx');
     });
 
-    it.skip('should use default filename if not provided', () => {
+    it('should use default filename if not provided', () => {
       const data = {};
       const mockBlob = new Blob(['blob content']);
       mocks.generate.mockReturnValue(mockBlob);

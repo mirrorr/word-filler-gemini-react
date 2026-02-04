@@ -37,5 +37,6 @@ export const generateDocument = (
     mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   });
 
-  saveAs(out, `filled-${originalFileName || 'document'}.docx`);
+  const name = (originalFileName || 'document').replace(/\.docx$/, '');
+  saveAs(out, `filled-${name}.docx`);
 };
